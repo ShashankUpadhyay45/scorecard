@@ -1,13 +1,14 @@
 {
-  "name": "scorecard",
+  "name": "server",
   "version": "1.0.0",
-  "private": true,
+  "main": "index.js",
+  "type": "commonjs",
   "scripts": {
-    "start": "cd server && node index.js",
-    "build": "cd client && npm install && npm run build",
-    "install-all": "npm install && cd client && npm install && cd ../server && npm install"
+    "start": "node index.js"
   },
   "dependencies": {
-    "concurrently": "^8.2.0"
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "node-fetch": "^2.6.11"
   }
 }

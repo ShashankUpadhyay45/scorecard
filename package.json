@@ -1,0 +1,13 @@
+{
+  "name": "scorecard",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm start",
+    "client": "cd client && npm start"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.0"
+  }
+}

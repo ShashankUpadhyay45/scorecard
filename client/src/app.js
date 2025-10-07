@@ -1,69 +1,96 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-const SERVER_URL = 'http://localhost:4000';
+// ✅ Backend URL (Render or local)
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:4000";
 
 function App() {
-  const [oldMatches, setOldMatches] = useState([]);
-  const [liveScore, setLiveScore] = useState(null);
+  const [liveMatches, setLiveMatches] = useState([]);
+  const [pastMatches, setPastMatches] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    // Fetch old matches on load
-    fetch(`${SERVER_URL}/old-matches`)
-      .then((res) => res.json())
-      .then(setOldMatches)
-      .catch(console.error);
+    async function fetchData() {
+      try {
+        // Fetch live matches from backend
+        const liveRes = await fetch(`${API_URL}/live-matches`);
+        const liveData = await liveRes.json();
 
-    // Connect to live score SSE
-    const eventSource = new EventSource(`${SERVER_URL}/live-score`);
-    eventSource.onmessage = (e) => {
-      const data = JSON.parse(e.data);
-      setLiveScore(data);
-    };
+        // Fetch past matches from backend
+        const pastRes = await fetch(`${API_URL}/past-matches`);
+        const pastData = await pastRes.json();
 
-    eventSource.onerror = () => {
-      eventSource.close();
-    };
+        setLiveMatches(liveData.data || []);
+        setPastMatches(pastData.data || []);
+      } catch (err) {
+        console.error("Error fetching matches:", err);
+        setError("Failed to load match data. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    }
 
-    return () => {
-      eventSource.close();
-    };
+    fetchData();
   }, []);
 
-  return (
-    <div style={{ fontFamily: 'Arial', padding: 20, maxWidth: 600, margin: 'auto' }}>
-      <h1>🏏 Scorecard Display</h1>
+  if (loading) return <h2 style={{ textAlign: "center", marginTop: "50px" }}>Loading matches...</h2>;
+  if (error) return <h2 style={{ textAlign: "center", marginTop: "50px", color: "red" }}>{error}</h2>;
 
+  return (
+    <div style={{ fontFamily: "Arial, sans-serif", padding: "20px", maxWidth: "800px", margin: "auto" }}>
+      <h1 style={{ textAlign: "center" }}>🏏 Live Cricket Scoreboard</h1>
+
+      {/* LIVE MATCHES */}
       <section>
-        <h2>Live Match</h2>
-        {liveScore ? (
-          <div style={{ border: '1px solid #333', padding: 10, borderRadius: 5 }}>
-            <p><strong>Teams:</strong> {liveScore.teams}</p>
-            <p><strong>Score:</strong> {liveScore.score}</p>
-            <p><strong>Overs:</strong> {liveScore.overs}</p>
-          </div>
+        <h2>Live Matches</h2>
+        {liveMatches.length > 0 ? (
+          liveMatches.map((match, index) => (
+            <div key={index} style={cardStyle}>
+              <h3>{match.name}</h3>
+              <p><strong>Status:</strong> {match.status}</p>
+              {match.score && match.score.length > 0 && (
+                <p>
+                  <strong>Score:</strong>{" "}
+                  {match.score.map((s) => `${s.r}/${s.w} (${s.o} ov)`).join(" | ")}
+                </p>
+              )}
+              <p><strong>Venue:</strong> {match.venue}</p>
+            </div>
+          ))
         ) : (
-          <p>Loading live score...</p>
+          <p>No live matches currently available.</p>
         )}
       </section>
 
-      <section style={{ marginTop: 40 }}>
-        <h2>Old Matches</h2>
-        {oldMatches.length > 0 ? (
-          <ul style={{ listStyle: 'none', padding: 0 }}>
-            {oldMatches.map((match) => (
-              <li key={match.id} style={{ borderBottom: '1px solid #ccc', padding: '10px 0' }}>
-                <p><strong>{match.teams}</strong></p>
-                <p>Score: {match.score}</p>
-                <p>Date: {match.date}</p>
-              </li>
-            ))}
-          </ul>
+      {/* PAST MATCHES */}
+      <section style={{ marginTop: "40px" }}>
+        <h2>Recently Played Matches</h2>
+        {pastMatches.length > 0 ? (
+          pastMatches.map((match, index) => (
+            <div key={index} style={cardStyle}>
+              <h3>{match.name}</h3>
+              <p><strong>Status:</strong> {match.status}</p>
+              <p><strong>Winner:</strong> {match.winner_team || "N/A"}</p>
+              <p><strong>Venue:</strong> {match.venue}</p>
+              <p><strong>Date:</strong> {match.date || match.dateTimeGMT}</p>
+            </div>
+          ))
         ) : (
-          <p>Loading old matches...</p>
+          <p>No past matches found.</p>
         )}
       </section>
     </div>
   );
 }
+
+// Simple card design
+const cardStyle = {
+  border: "1px solid #ccc",
+  padding: "15px",
+  marginBottom: "10px",
+  borderRadius: "8px",
+  backgroundColor: "#f9f9f9",
+  boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+};
 
 export default App;

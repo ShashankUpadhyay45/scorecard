@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node server/index.js",
-    "server": "node server/index.js",
-    "client": "npm start --prefix client",
     "build": "npm install --prefix client && npm run build --prefix client"
   },
   "engines": {
@@ -14,7 +12,6 @@
     "express": "^4.21.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "axios": "^1.12.2",
-    "node-fetch": "^3.3.2"
+    "axios": "^1.12.2"
   }
 }

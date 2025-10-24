@@ -1,0 +1,163 @@
+/* client/src/styles.css - single file styling (keeps layout consistent) */
+:root{
+  --nav:#0f1720;
+  --accent:#0b63d6;
+  --card:#fff;
+  --muted:#6b7280;
+}
+*{box-sizing:border-box}
+html,body,#root{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,"Poppins",sans-serif;background:#f7f8fa;color:#111}
+.app{display:flex;flex-direction:column;min-height:100vh}
+.app.dark{background:#0b1220;color:#e6eef9}
+.navbar{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;padding:14px 28px;background:var(--nav);color:white;
+  box-shadow:0 2px 6px rgba(0,0,0,0.12);position:sticky;top:0;z-index:40;
+}
+.brand{display:flex;align-items:center;gap:.8rem}
+.logo{width:44px;height:44px;border-radius:6px;background:white;padding:4px}
+.brand-text{font-weight:700}
+.navlinks{display:flex;gap:1rem;align-items:center}
+.navlinks a{color:#e6eef9;text-decoration:none;padding:6px 10px;border-radius:6px}
+.navlinks a:hover{background:rgba(255,255,255,0.03)}
+.menu{position:relative}
+.menu-btn{background:transparent;border:none;color:white;font-size:18px;padding:8px;border-radius:8px;cursor:pointer}
+.menu-pop{
+  position:absolute;right:0;top:44px;background:white;color:#111;border-radius:8px;padding:8px;
+  box-shadow:0 8px 30px rgba(2,6,23,0.3);display:flex;flex-direction:column;gap:6px;
+}
+.menu-pop button{border:none;background:transparent;padding:8px 12px;text-align:left;cursor:pointer;border-radius:6px}
+.menu-pop button:hover{background:#f1f5f9}
+
+.splash{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  background:var(--nav);z-index:9999;
+}
+.splash-logo{width:140px;border-radius:10px;background:white;padding:12px}
+
+.main{flex:1;padding:48px 60px}
+.footer{text-align:center;background:var(--nav);color:white;padding:12px 6px}
+
+.home{text-align:center;max-width:1200px;margin:0 auto}
+.home h1{font-size:38px;margin:6px 0}
+.subtitle{color:var(--muted)}
+.game-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:28px}
+.game-card{min-width:200px;padding:18px 22px;border-radius:12px;background:var(--nav);color:white;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 8px 18px rgba(2,6,23,0.08)}
+.game-card:hover{transform:translateY(-4px);transition:all .16s ease}
+
+.contact{max-width:700px;margin:16px auto;padding:22px;border-radius:12px;background:var(--card);box-shadow:0 8px 20px rgba(2,6,23,0.06)}
+.email-btn{display:inline-block;margin-top:12px;background:var(--accent);color:white;padding:10px 14px;border-radius:10px;text-decoration:none}
+
+.game-details{max-width:1100px;margin:12px auto}
+.json-view{background:#0f1720;color:#f3f4f6;padding:16px;border-radius:8px;overflow:auto}
+
+/* small screens */
+@media (max-width:720px){
+  .navlinks{display:none}
+  .game-card{min-width:140px}
+  .main{padding:22px}
+}
+
+/* 🌟 Base Layout */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f7f9fc;
+  color: #111;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* 🌟 Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0b1622;
+  padding: 20px 50px;
+  color: white;
+}
+
+.navbar .logo-section {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 70px;
+  margin-right: 15px;
+}
+
+.navbar h2 {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.navbar a {
+  color: white;
+  margin: 0 18px;
+  text-decoration: none;
+  font-size: 20px;
+  transition: color 0.2s;
+}
+
+.navbar a:hover {
+  color: #1e90ff;
+}
+
+/* 🌟 Home Page */
+.home-container {
+  text-align: center;
+  padding: 60px 20px;
+  flex: 1;
+}
+
+.home-container h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.home-container p {
+  font-size: 20px;
+  margin-bottom: 40px;
+}
+
+.game-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+.game-buttons button {
+  background-color: #18283d;
+  color: white;
+  border: none;
+  padding: 15px 35px;
+  font-size: 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.game-buttons button:hover {
+  background-color: #1e90ff;
+  transform: scale(1.05);
+}
+
+/* 🌟 Footer */
+footer {
+  background-color: #0b1622;
+  color: white;
+  text-align: center;
+  padding: 18px;
+  font-size: 16px;
+  margin-top: auto;
+}

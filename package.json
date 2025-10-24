@@ -1,14 +1,20 @@
 {
-  "name": "server",
+  "name": "scorecard",
   "version": "1.0.0",
-  "main": "index.js",
-  "type": "commonjs",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server/index.js",
+    "server": "node server/index.js",
+    "client": "npm start --prefix client",
+    "build": "npm install --prefix client && npm run build --prefix client"
+  },
+  "engines": {
+    "node": "22.x"
   },
   "dependencies": {
-    "cors": "^2.8.5",
     "express": "^4.21.2",
-    "node-fetch": "^2.6.11"
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "axios": "^1.12.2",
+    "node-fetch": "^3.3.2"
   }
 }
